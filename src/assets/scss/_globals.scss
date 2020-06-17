@@ -1,9 +1,10 @@
 body {
+  margin: 0;
   font-family: $FONTFAMILY-BASIC;
   color: $COLOR-UTILITY-TXT-BASE;
   background-color: $COLOR-BG-MAIN;
-  margin: 0;
 }
+
 * {
   box-sizing: border-box;
 }
@@ -13,24 +14,22 @@ ul {
 }
 
 button {
+  padding: 0;
   color: $COLOR-UTILITY-TXT-BTN;
   border: 0;
-  padding: 0;
+
   &:focus {
     outline: none;
   }
 }
 
-button,
-input {
-  font-family: $FONTFAMILY-BASIC;
-}
 h1,
 h2,
 h3,
 p {
   margin: 0;
 }
+
 button,
 input,
 a {
@@ -38,22 +37,28 @@ a {
   background: none;
 }
 
-.u-sp {
-  display: none !important;
-  @include sp {
-    display: block !important;
+input,
+button,
+select {
+  // stylelint-disable-next-line 4dd/aeonmoneysite-custom-rules
+  font-family: inherit;
+}
+
+[role='button'],
+button {
+  cursor: pointer;
+  @include hover {
+    opacity: 0.5 !important;
   }
 }
 
-.u-open {
-  display: flex !important;
+input {
+  // override sanitize.css definition to avoid weird behavior on Safari.
+  word-break: normal;
 }
-.u-close {
-  display: none !important;
-}
-.u-visible {
-  visibility: visible !important;
-}
-.u-hidden {
-  visibility: hidden !important;
+
+ul,
+ol {
+  padding: 0;
+  margin: 0;
 }

@@ -1,49 +1,24 @@
-@mixin large-pc {
-  @media (min-width: $WIDTH-LARGE-PC) {
-    @content;
-  }
-}
-
-@mixin pc() {
-  @media (min-width: $WIDTH-PC) {
-    @content;
-  }
-}
-
-@mixin tablet() {
-  @media (max-width: $WIDTH-PC - 1px) {
-    @content;
-  }
-}
-
-@mixin sp() {
-  @media (max-width: $WIDTH-XS - 1px) {
-    @content;
-  }
-}
-
-@mixin u-fw-b {
-  font-weight: 600;
-}
-
-@mixin u-fw-lb {
-  font-weight: 500;
-}
-
-@mixin u-fw-n {
-  font-weight: 300;
-}
-
+/*
+🌟 common mixins
+*/
+/*
+convert line-height & letter-spacing px values into relative value.
+px-based values can be extracted from Abstract. Always use this to define line-height & letter-spacing
+If cutLineSpace=true, the spacing the top of first-line & the bottom of last-line caused by line-height will be killed.
+--------------------------------------------------------- */
 @mixin u-fz($fontSizePx: false, $lineHeightPx: false, $letterSpacingPx: false, $cutLineSpace: false) {
   @if ($fontSizePx) {
+    /* stylelint-disable-next-line 4dd/aeonmoneysite-custom-rules */
     font-size: $fontSizePx + px;
   }
 
   @if ($lineHeightPx) {
+    /* stylelint-disable-next-line 4dd/aeonmoneysite-custom-rules */
     line-height: ($lineHeightPx / $fontSizePx);
   }
 
   @if ($letterSpacingPx) {
+    /* stylelint-disable-next-line 4dd/aeonmoneysite-custom-rules */
     letter-spacing: ($letterSpacingPx / $fontSizePx) + em;
   }
 
@@ -60,20 +35,262 @@
     &:before {
       margin-bottom: $_marginVal + px;
     }
+
     &:after {
       margin-top: $_marginVal + px;
     }
   }
 }
+/*
+see https://tech.recruit-mp.co.jp/front-end/tips-ellipsis/
+--------------------------------------------------------- */
+@mixin ellipsisMultiline($fontSizePx, $lineHeightPx, $linesToShow: 2, $containerBgColor: #fff) {
+  $lineHeightComputed: $lineHeightPx / $fontSizePx;
+
+  overflow: hidden;
+
+  > * {
+    position: relative;
+    height: $fontSizePx * $lineHeightComputed * $linesToShow * 1px;
+
+    &:before,
+    &:after {
+      position: absolute;
+      background-color: $containerBgColor;
+    }
+
+    &:before {
+      top: ($fontSizePx * $lineHeightComputed * ($linesToShow - 1)) * 1px;
+      right: 0;
+      padding-right: 4px;
+      content: '...';
+    }
+
+    &:after {
+      width: 100%;
+      height: 100%;
+      content: '';
+    }
+  }
+}
+
+@mixin u-fw-b {
+  /* stylelint-disable-next-line 4dd/aeonmoneysite-custom-rules */
+  font-weight: 600;
+}
+
+@mixin u-fw-lb {
+  /* stylelint-disable-next-line 4dd/aeonmoneysite-custom-rules */
+  font-weight: 500;
+}
+
+@mixin u-fw-n {
+  /* stylelint-disable-next-line 4dd/aeonmoneysite-custom-rules */
+  font-weight: 300;
+}
+
+@mixin u-ff-basic {
+  /* stylelint-disable-next-line 4dd/aeonmoneysite-custom-rules */
+  font-family: $FONTFAMILY-BASIC;
+}
+
+@mixin u-ff-number {
+  /* stylelint-disable-next-line 4dd/aeonmoneysite-custom-rules */
+  font-family: $FONTFAMILY-NUMBER;
+}
+/* use when you want to separate behavior between touch devices & mouse devices
+--------------------------------------------------------- */
+@mixin device-desktop() {
+  /* stylelint-disable-next-line selector-no-qualifying-type, selector-class-pattern */
+  body.is-pc & {
+    @content;
+  }
+}
+@mixin device-touch() {
+  /* stylelint-disable-next-line selector-no-qualifying-type, selector-class-pattern */
+  body:not(.is-pc) & {
+    @content;
+  }
+}
+/* Use this mixin when you make hover behavior
+--------------------------------------------------------- */
 @mixin hover() {
-  &:hover,
-  &:focus {
+  @include device-desktop() {
+    &:hover,
+    &:focus {
+      @content;
+    }
+  }
+  @include device-touch() {
+    &:active {
+      @content;
+    }
+  }
+}
+/* clearfix
+--------------------------------------------------------- */
+@mixin clearfix {
+  &:after {
+    display: block;
+    clear: both;
+    content: '';
+  }
+}
+/* make area that keep the aspect-ratio of area. This should be used with background-image
+--------------------------------------------------------- */
+@mixin aspectRatio($width: 1, $height: 1) {
+  position: relative;
+
+  &:before {
+    display: block;
+    padding-bottom: ($height / $width) * 100%;
+    content: '';
+  }
+}
+/* ellipsis with
+--------------------------------------------------------- */
+@mixin ellipsisInline {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+/* scrollable area - $direction: h(horizontal scroll) | v(vertical scroll)
+--------------------------------------------------------- */
+@mixin scrollableArea($direction: h) {
+  -webkit-overflow-scrolling: touch;
+  @if ($direction == h) {
+    overflow-x: auto;
+    overflow-y: hidden;
+  } @else {
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
+}
+/*
+🌟 respionsive mixins
+*/
+/* media query mixins. Please write SP first, as much as possible.
+This mean that please use pc() as much as possible.
+
+.foo {
+  @include pc {
+
+  }
+}
+
+--------------------------------------------------------- */
+
+@mixin pc-large() {
+  @media (min-width: $WIDTH-PC-LARGE) {
     @content;
   }
 }
 
-@mixin bg-img($url) {
-  background-image: url($url);
-  background-repeat: no-repeat;
-  background-size: contain;
+@mixin pc() {
+  @media (min-width: $WIDTH-XS + 1px) {
+    @content;
+  }
+}
+
+@mixin pcFixedContent() {
+  @media (min-width: 1204px) {
+    @content;
+  }
+}
+
+@mixin tab() {
+  @media (min-width: $WIDTH-XS + 1px) and (max-width: 1204px - 1px) {
+    @content;
+  }
+}
+
+@mixin sp() {
+  @media (max-width: $WIDTH-XS) {
+    @content;
+  }
+}
+/*
+🌟 form mixins
+*/
+/* placeholder
+--------------------------------------------------------- */
+@mixin placeholderColor($color: #999) {
+  /* stylelint-disable-next-line selector-no-vendor-prefix */
+  &::-webkit-input-placeholder {
+    //Google Chrome, Safari, Opera 15+, Android, iOS
+    color: $color;
+    -webkit-text-fill-color: $color;
+    // opacity: 0.3;
+  }
+  /* stylelint-disable-next-line selector-no-vendor-prefix */
+  &::-moz-placeholder {
+    //Firefox 19+
+    color: $color;
+    -webkit-text-fill-color: $color;
+    opacity: 1;
+  }
+  /* stylelint-disable-next-line selector-no-vendor-prefix */
+  &:-ms-input-placeholder {
+    //IE 10+
+    color: $color;
+    -webkit-text-fill-color: $color;
+    // opacity: 0.1;
+  }
+
+  &:placeholder-shown {
+    color: $color;
+    -webkit-text-fill-color: $color;
+    // opacity: 0.3;
+  }
+}
+
+@mixin marginLeftWithEndLine($margin: 16px, $lineColor: $COLOR-UTILITY-ENDLINE) {
+  position: relative;
+  margin-left: $margin;
+
+  &:after {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: -$margin;
+    width: 1px;
+    content: '';
+    background-color: $lineColor;
+  }
+}
+
+@mixin imageWithBorderAndRadius() {
+  border: 1px solid $COLOR-GRY-LIGHT;
+  border-radius: 4px;
+}
+/* background
+--------------------------------------------------------- */
+@mixin with-background($paddingTop: 60, $paddingBottom: 60) {
+  $paddingTop: $paddingTop * 1px;
+  $paddingBottom: $paddingBottom * 1px;
+
+  width: 100vw;
+  min-width: 820px + $WIDTH-SCREEN-SIDE-GUTTER-PC-MAIN * 2;
+  padding: $paddingTop calc(50vw - #{$WIDTH-MAX-MAIN / 2} + #{$WIDTH-SCREEN-SIDE-GUTTER-PC-MAIN}) $paddingBottom;
+  margin-left: calc(#{$WIDTH-MAX-MAIN / 2} - 50vw - #{$WIDTH-SCREEN-SIDE-GUTTER-PC-MAIN});
+
+  @media (min-width: 1024px) and (max-width: 1204px) {
+    padding: $paddingTop $WIDTH-SCREEN-SIDE-GUTTER-PC-MAIN $paddingBottom;
+    margin-left: calc(-50vw - #{$WIDTH-SCREEN-SIDE-GUTTER-PC-MAIN});
+    transform: translateX(50%);
+  }
+
+  @media (max-width: 1023px) {
+    width: 820px + $WIDTH-SCREEN-SIDE-GUTTER-PC-MAIN * 2;
+    padding: $paddingTop $WIDTH-SCREEN-SIDE-GUTTER-PC-MAIN $paddingBottom;
+    margin-left: -$WIDTH-SCREEN-SIDE-GUTTER-PC-MAIN;
+    transform: none;
+  }
+
+  @include sp {
+    width: 100vw;
+    min-width: auto;
+    padding: #{$paddingTop/2 + 10} $WIDTH-SCREEN-SIDE-GUTTER #{$paddingBottom/2 + 10};
+    margin-left: calc(#{-1 * $WIDTH-SCREEN-SIDE-GUTTER});
+  }
 }
