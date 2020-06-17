@@ -1,0 +1,79 @@
+@mixin large-pc {
+  @media (min-width: $WIDTH-LARGE-PC) {
+    @content;
+  }
+}
+
+@mixin pc() {
+  @media (min-width: $WIDTH-PC) {
+    @content;
+  }
+}
+
+@mixin tablet() {
+  @media (max-width: $WIDTH-PC - 1px) {
+    @content;
+  }
+}
+
+@mixin sp() {
+  @media (max-width: $WIDTH-XS - 1px) {
+    @content;
+  }
+}
+
+@mixin u-fw-b {
+  font-weight: 600;
+}
+
+@mixin u-fw-lb {
+  font-weight: 500;
+}
+
+@mixin u-fw-n {
+  font-weight: 300;
+}
+
+@mixin u-fz($fontSizePx: false, $lineHeightPx: false, $letterSpacingPx: false, $cutLineSpace: false) {
+  @if ($fontSizePx) {
+    font-size: $fontSizePx + px;
+  }
+
+  @if ($lineHeightPx) {
+    line-height: ($lineHeightPx / $fontSizePx);
+  }
+
+  @if ($letterSpacingPx) {
+    letter-spacing: ($letterSpacingPx / $fontSizePx) + em;
+  }
+
+  @if ($cutLineSpace) {
+    &:before,
+    &:after {
+      display: block;
+      overflow: hidden;
+      content: '';
+    }
+
+    $_marginVal: ($lineHeightPx - $fontSizePx) * -0.5;
+
+    &:before {
+      margin-bottom: $_marginVal + px;
+    }
+    &:after {
+      margin-top: $_marginVal + px;
+    }
+  }
+}
+@mixin hover() {
+  &:hover,
+  &:focus {
+    @content;
+  }
+}
+
+@mixin bg-img($url) {
+  background-image: url($url);
+  background-repeat: no-repeat;
+  background-size: contain;
+}

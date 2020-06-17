@@ -1,0 +1,59 @@
+body {
+  font-family: $FONTFAMILY-BASIC;
+  color: $COLOR-UTILITY-TXT-BASE;
+  background-color: $COLOR-BG-MAIN;
+  margin: 0;
+}
+* {
+  box-sizing: border-box;
+}
+
+ul {
+  list-style: none;
+}
+
+button {
+  color: $COLOR-UTILITY-TXT-BTN;
+  border: 0;
+  padding: 0;
+  &:focus {
+    outline: none;
+  }
+}
+
+button,
+input {
+  font-family: $FONTFAMILY-BASIC;
+}
+h1,
+h2,
+h3,
+p {
+  margin: 0;
+}
+button,
+input,
+a {
+  cursor: pointer;
+  background: none;
+}
+
+.u-sp {
+  display: none !important;
+  @include sp {
+    display: block !important;
+  }
+}
+
+.u-open {
+  display: flex !important;
+}
+.u-close {
+  display: none !important;
+}
+.u-visible {
+  visibility: visible !important;
+}
+.u-hidden {
+  visibility: hidden !important;
+}

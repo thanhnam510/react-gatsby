@@ -1,0 +1,41 @@
+/* COLOR MAIN
+--------------------------------------------------------- */
+$COLOR-WHITE: #fff;
+$COLOR-BLUE: #0b318f;
+$COLOR-GRAY-DARK: #121212;
+$COLOR-GRAY-BLUE: #f0f3f8;
+$COLOR-BG-MAIN: #f5f5f5;
+$COLOR-RED: #d32f2f;
+$COLOR-GRAY: #eeeeee;
+$COLOR-BG-SELECTED: #092354;
+$COLOR-BG-HOVER: rgba(9, 35, 84, 0.8);
+/* COLOR UTILITY
+--------------------------------------------------------- */
+$COLOR-UTILITY-TXT-BASE: $COLOR-GRAY-DARK;
+$COLOR-UTILITY-TXT-BTN: $COLOR-WHITE;
+$COLOR-UTILITY-BG-BTN-LARGE: $COLOR-RED;
+$COLOR-UTILITY-CARD-SHADOW: rgba(0, 0, 0, 0.04);
+$COLOR-UTILITY-SHADOW: rgba(0, 0, 0, 0.3);
+$COLOR-UTILITY-BORDER: #f1f4f9;
+$COLOR-UTILITY-BG-CARD-BORDER: rgba(255, 255, 255, 0.9);
+
+/* FONT FAMILY
+--------------------------------------------------------- */
+$FONTFAMILY-BASIC: YuGothic, Oswald, sans-serif;
+
+/* TRANSITION
+--------------------------------------------------------- */
+$TRANSITION-BASIC: 0.3s;
+
+/* WIDTH
+--------------------------------------------------------- */
+$WIDTH-CONTENT: 980px;
+$WIDTH-XS: 768px;
+$WIDTH-LARGE-PC: 1280px;
+$WIDTH-PC: 1024px;
+
+/* LAYOUT
+--------------------------------------------------------- */
+$PADDING-TABLET: 15px;
+$HEADER-PC-HEIGHT: 80px;
+$HEADER-SP-HEIGHT: 64px;

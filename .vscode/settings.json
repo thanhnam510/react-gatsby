@@ -1,0 +1,7 @@
+{
+  "eslint.validate": ["javascript"],
+  "editor.formatOnPaste": true,
+  "editor.formatOnSave": true,
+  "stylelint.useLocal": true,
+  "stylelint.autoFixOnSave": true
+}
