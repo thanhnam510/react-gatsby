@@ -1,5 +1,12 @@
 import React from 'react';
+import { Link } from 'gatsby';
 
-export default function Home() {
-  return <div>Hello Gatsby!</div>;
-}
+export const Home: React.FC = () => {
+  return (
+    <div>
+      <div>Hello Gatsby!</div>
+      <Link to="/about">About</Link>
+      <Link to="/dash">Dash</Link>
+    </div>
+  );
+};
