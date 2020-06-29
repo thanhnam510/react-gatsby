@@ -1,5 +1,5 @@
 {
-  "include": ["src/**/*", ".storybook/**/*", "scripts/**/*"],
+  "include": ["src/**/*", ".storybook/**/*", "scripts/**/*", "typings"],
   "compilerOptions": {
     "target": "esnext",
     "module": "commonjs",
@@ -9,7 +9,7 @@
       "component": ["src/components/*"],
       "root/*": ["*"]
     },
-    "typeRoots": ["node_modules/@types"],
+    "typeRoots": ["typings", "node_modules/@types"],
     "jsx": "react",
     "lib": ["esnext", "dom"],
     "strict": true,

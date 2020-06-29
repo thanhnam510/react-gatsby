@@ -1,41 +1,42 @@
 const sassGlobImporter = require('node-sass-glob-importer');
 const TsconfigPathsWebpackPlugin = require('tsconfig-paths-webpack-plugin');
+const TsDocgenPlugin = require('react-docgen-typescript-webpack-plugin');
 const path = require('path');
-
 module.exports = {
   // You will want to change this to wherever your Stories will live.
   stories: ['../src/**/*.stories.[tj]sx'],
-  addons: ['@storybook/addon-knobs/register', '@storybook/addon-viewport/register', '@storybook/addon-backgrounds/register'],
-  webpackFinal: async (config) => {
-    // Transpile Gatsby module because Gatsby includes un-transpiled ES6 code.
+  addons: [
+    '@storybook/addon-knobs/register',
+    '@storybook/addon-viewport/register',
+    '@storybook/addon-backgrounds/register',
+  ],
+  webpackFinal: async config => {
     config.module.rules[0].exclude = [/node_modules\/(?!(gatsby)\/)/];
-    // use installed babel-loader which is v8.0-beta (which is meant to work with @babel/core@7)
-    config.module.rules[0].use[0].loader = require.resolve('babel-loader');
-    // use @babel/preset-react for JSX and env (instead of staged presets)
-    config.module.rules[0].use[0].options.presets = [
-      require.resolve('@babel/preset-react'),
-      require.resolve('@babel/preset-env'),
-    ];
-    config.module.rules[0].use[0].options.plugins = [
-      // use @babel/plugin-proposal-class-properties for class arrow functions
-      require.resolve('@babel/plugin-proposal-class-properties'),
-      // use babel-plugin-remove-graphql-queries to remove static queries from components when rendering in storybook
-      require.resolve('babel-plugin-remove-graphql-queries'),
-    ];
-    // Prefer Gatsby ES6 entrypoint (module) over commonjs (main) entrypoint
     config.resolve.mainFields = ['browser', 'module', 'main'];
     config.module.rules.push(
       {
         test: /\.(ts|tsx)$/,
-        loader: require.resolve('babel-loader'),
-        options: {
-          presets: [['react-app', { flow: false, typescript: true }]],
-          plugins: [
-            require.resolve('@babel/plugin-proposal-class-properties'),
-            // use babel-plugin-remove-graphql-queries to remove static queries from components when rendering in storybook
-            require.resolve('babel-plugin-remove-graphql-queries'),
-          ],
-        },
+        include: path.resolve(__dirname, '../src'),
+        use: [
+          {
+            loader: 'babel-loader',
+            options: {
+              presets: ['@babel/preset-env', '@babel/preset-typescript', '@babel/preset-react'],
+              plugins: [
+                require.resolve('@babel/plugin-proposal-class-properties'),
+                // use babel-plugin-remove-graphql-queries to remove static queries from components when rendering in storybook
+                require.resolve('babel-plugin-remove-graphql-queries'),
+              ],
+            },
+          },
+          require.resolve('ts-loader'),
+          {
+            loader: 'react-docgen-typescript-loader',
+            options: {
+              tsconfigPath: path.resolve(__dirname, '../tsconfig.json'),
+            },
+          },
+        ],
       },
       {
         test: /\.scss$/i,
@@ -54,7 +55,10 @@ module.exports = {
       }
     );
     config.resolve.extensions.push('.ts', '.tsx');
-    config.resolve.plugins = [new TsconfigPathsWebpackPlugin({ configFile: path.resolve(__dirname, '../tsconfig.json') })];
+    config.resolve.plugins = [
+      new TsconfigPathsWebpackPlugin({ configFile: path.resolve(__dirname, '../tsconfig.json') }),
+      new TsDocgenPlugin(),
+    ];
     return config;
   },
 };
