@@ -2,7 +2,7 @@
 to: src/components/<%= level %>/<%= name %>/<%= name %>.tsx
 ---
 import React from 'react';
-import {mapModifiers} from 'lib/component';
+import { mapModifiers } from 'lib/component';
 
 type Modifier = 'foo' | 'bar';
 
