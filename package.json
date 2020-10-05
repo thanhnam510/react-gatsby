@@ -14,9 +14,7 @@
     "test": "echo \"Write tests! -> https://gatsby.dev/unit-testing\" && exit 1",
     "storybook": "start-storybook -p 9009 -s public",
     "build-storybook": "build-storybook",
-    "gen:atoms": "hygen component new --level atoms",
-    "gen:molecules": "hygen component new --level molecules",
-    "gen:organisms": "hygen component new --level organisms"
+    "gen:components": "hygen component new"
   },
   "dependencies": {
     "gatsby": "^2.22.15",

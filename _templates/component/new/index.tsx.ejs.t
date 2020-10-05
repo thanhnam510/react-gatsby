@@ -1,5 +1,5 @@
 ---
-to: src/components/<%= level %>/<%= name %>/<%= name %>.tsx
+to: src/components/<%= level %>/<%= name %>/index.tsx
 ---
 import React from 'react';
 import { mapModifiers } from 'lib/component';
